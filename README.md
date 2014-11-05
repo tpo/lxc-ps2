@@ -28,7 +28,7 @@ techniques like f.ex.
 Usage
 -----
 
-    root@host ~ # ./lxc-ps2 -eo user,pid,pidnsn,args
+    root@host ~ # lxc-ps2 -eo user,pid,pidnsn,args
     USER       PID      PIDNS COMMAND
     root         1        HOST_MACHINE init [2]
     root         2        HOST_MACHINE [kthreadd]
