@@ -53,7 +53,7 @@ for LXC_NAME in $NONDEAD_LXC_VMS HOST_MACHINE; do
   fi
 
   for NS in ipc mnt net pid usr uts; do
-    if [ ${SHOW_NS[$NS]}=1 ]; then
+    if [ ${SHOW_NS[$NS]} == 1 ]; then
 
       NSx=$NS
       if [ $NS == usr ]; then NSx=user; fi
