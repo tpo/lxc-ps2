@@ -2,7 +2,7 @@ lxc-ps2
 =======
 
 lxc-ps2 is a wrapper of the 'ps' command that can show
-the names of the lxc VMs that processes are running in.
+the names of the lxc VMs where processes are running.
 
 lxc-ps2 behaves identically to the 'ps' command except
 that it adds support the following format specifiers:
@@ -24,3 +24,27 @@ it could certainly be improved and it could also be
 extended to other namespace based virtualisation
 techniques like f.ex.
 [docker](https://duckduckgo.com/l/?kh=-1&uddg=https%3A%2F%2Fwww.docker.com%2F).
+
+Usage
+-----
+
+    root@host ~ # ./lxc-ps2 -eo user,pid,pidnsn,args
+    USER       PID      PIDNS COMMAND
+    root         1        HOST_MACHINE init [2]
+    root         2        HOST_MACHINE [kthreadd]
+    root         3        HOST_MACHINE [ksoftirqd/0]
+    [...etc...]
+    1003       733           guest-vm1 nc 192.168.138.1 22
+    root       734             test-vm sshd: root@pts/3,pts/4
+    root       758             test-vm -bash
+    [...etc...]
+
+
+Requirements
+------------
+[procps-ng-3.3.9](http://sourceforge.net/projects/procps-ng/)
+
+Author
+------
+
+Tomas Pospisek <tpo_deb@sourcepole.ch>
