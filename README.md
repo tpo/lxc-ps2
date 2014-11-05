@@ -42,7 +42,7 @@ Usage
 
 Requirements
 ------------
-[procps-ng-3.3.9](http://sourceforge.net/projects/procps-ng/)
+[procps-ng-3.3.9](http://sourceforge.net/projects/procps-ng/) or higher
 
 Author
 ------
