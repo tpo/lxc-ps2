@@ -26,6 +26,7 @@ NONDEAD_LXC_VMS=$( lxc-list \
 # parse command line arguments and replace ipcnsn with ipcns
 # remember which NSIDs need to be replaced
 #
+declare -A SHOW_NS
 argc=$#
 for (( argn=1; argn<=argc; argn++)); do
 
