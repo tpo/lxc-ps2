@@ -1,0 +1,73 @@
+#!/bin/bash
+
+help() {
+  echo "lxc-ps2 [arguments]"
+  echo
+  echo "    lxc-ps2 behaves identically as the 'ps' command except that"
+  echo "    we additionaly support the following format specifiers:"
+  echo
+  echo "      ipcnsn, mntnsn, netnsn, pidnsn, usrnsn, utsnsn
+  echo
+  echo "    which will list the respective lxc VM names"
+  echo
+  exit 1
+}
+
+[ "$1" == "--help" ] && help
+
+# 1. list all lxc VMs
+# 2. cut off all VM names after the 'STOPPED' line
+# 3. s/  vmname (auto)/vmname/
+#
+NONDEAD_LXC_VMS=$( lxc-list \
+                   | awk '{ switch ($0) { case /^STOPPED$/ : {exit} case /^  / : {print} } }' \
+                   | sed 's/  //; s/ .*//' )
+
+# parse command line arguments and replace ipcnsn with ipcns
+# remember which NSIDs need to be replaced
+#
+argc=$#
+for (( argn=1; argn<=argc; argn++)); do
+
+  ARGS[$argn]="${!argn}"
+
+  for NS in ipc mnt net pid usr uts; do
+
+     if [[ ${!argn} =~ ${NS}nsn ]]; then
+
+       ARGS[$argn]=$( echo "${!argn}" | sed "s/${NS}nsn/${NS}ns/" )
+       SHOW_NS[$NS]=1
+     fi
+  done
+done
+
+# for each NS create an array that maps the respective NSID to
+# its VM name
+#
+for LXC_NAME in $NONDEAD_LXC_VMS HOST_MACHINE; do
+
+  if [ $LXC_NAME == HOST_MACHINE ]; then
+    LXC_INIT_PID=1
+  else
+    LXC_INIT_PID=$( lxc-info --name=$LXC_NAME --pid | sed 's/.*: *//' )
+  fi
+
+  for NS in ipc mnt net pid usr uts; do
+    if [ ${SHOW_NS[$NS]}=1 ]; then
+
+      NSx=$NS
+      if [ $NS == usr ]; then NSx=user; fi
+
+      NSID=$( stat -L /proc/$LXC_INIT_PID/ns/$NSx  -c%i )
+
+      LXC_NAMEx=$( printf "%20s" $LXC_NAME )
+      # The [^]] keeps sed from replacing the NSIDs in the
+      # sed entry in the ps listing itself. The [^]] will not
+      # match the sed expression itself.
+      SED_PARAM="$SED_PARAM;s/[^]]$NSID/$LXC_NAMEx/"
+   fi
+  done
+done
+
+ps ${ARGS[@]} | sed "$SED_PARAM"
+
