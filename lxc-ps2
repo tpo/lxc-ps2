@@ -6,7 +6,7 @@ help() {
   echo "    lxc-ps2 behaves identically as the 'ps' command except that"
   echo "    we additionaly support the following format specifiers:"
   echo
-  echo "      ipcnsn, mntnsn, netnsn, pidnsn, usrnsn, utsnsn
+  echo "      ipcnsn, mntnsn, netnsn, pidnsn, usrnsn, utsnsn"
   echo
   echo "    which will list the respective lxc VM names"
   echo
