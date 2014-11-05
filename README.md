@@ -13,7 +13,7 @@ which will list the respective lxc VM names in which a
 process is running.
 
 The [lxc project itself](https://github.com/lxc/lxc) had
-a [lxc-ps implementation][https://github.com/lxc/lxc/blob/0306de4f280adc0cd5faa3cd365c584d61c9e383/src/lxc/lxc-ps.in]
+a [lxc-ps implementation](https://github.com/lxc/lxc/blob/0306de4f280adc0cd5faa3cd365c584d61c9e383/src/lxc/lxc-ps.in)
 which [was removed](https://github.com/lxc/lxc/commit/7f12cae956c003445e6ee182b414617b52532af6).
 
 There was a virt-ps tool by Richard W.M. Jones floating
