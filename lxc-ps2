@@ -10,6 +10,10 @@ help() {
   echo
   echo "    which will list the respective lxc VM names"
   echo
+  echo "    Example:"
+  echo
+  echo "      lxc-ps2 -eo user,pid,pidnsn,args"
+  echo
   exit 1
 }
 
