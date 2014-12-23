@@ -51,17 +51,17 @@ done
 #
 for LXC_NAME in $NONDEAD_LXC_VMS HOST_MACHINE; do
 
-  if [ $LXC_NAME == HOST_MACHINE ]; then
+  if [ "$LXC_NAME" = "HOST_MACHINE" ]; then
     LXC_INIT_PID=1
   else
     LXC_INIT_PID=$( lxc-info --name=$LXC_NAME --pid | sed 's/.*: *//' )
   fi
 
   for NS in ipc mnt net pid usr uts; do
-    if [ ${SHOW_NS[$NS]} == 1 ]; then
+    if [ "${SHOW_NS[$NS]}" = "1" ]; then
 
       NSx=$NS
-      if [ $NS == usr ]; then NSx=user; fi
+      if [ "$NS" = "usr" ]; then NSx=user; fi
 
       NSID=$( stat -L /proc/$LXC_INIT_PID/ns/$NSx  -c%i )
 
