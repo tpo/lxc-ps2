@@ -19,13 +19,7 @@ help() {
 
 [ "$1" == "--help" ] && help
 
-# 1. list all lxc VMs
-# 2. cut off all VM names after the 'STOPPED' line
-# 3. s/  vmname (auto)/vmname/
-#
-NONDEAD_LXC_VMS=$( lxc-list \
-                   | awk '{ switch ($0) { case /^STOPPED$/ : {exit} case /^  / : {print} } }' \
-                   | sed 's/  //; s/ .*//' )
+NONDEAD_LXC_VMS=$( lxc-ls --running )
 
 # parse command line arguments and replace ipcnsn with ipcns
 # remember which NSIDs need to be replaced
